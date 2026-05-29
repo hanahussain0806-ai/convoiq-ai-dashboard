@@ -1,0 +1,110 @@
+{
+  "name": "Enterprise Sentiment Analyzer",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "analyze-sentiment",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b2cce504-d1f4-4dc9-b36a-b69bbcf78836",
+      "name": "Webhook",
+      "webhookId": "22b80895-1965-4b7f-8e6e-23aacddfe4c6"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_GROQ_API_KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "=json",
+        "specifyBody": "json",
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "jsonBody": "={{ JSON.stringify({\n  \"model\": \"llama-3.3-70b-versatile\",\n  \"response_format\": { \"type\": \"json_object\" },\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are an AI Call Center Analyst. Output ONLY raw JSON matching this exact structure, with no markdown wrappers: { \\\"overall_sentiment\\\": \\\"Negative\\\", \\\"overallScore\\\": -0.8, \\\"emotion_detected\\\": \\\"Anger\\\", \\\"summary\\\": \\\"string\\\", \\\"topKeywords\\\": [\\\"string\\\"], \\\"callDuration\\\": 120, \\\"business_kpis\\\": { \\\"customer_frustration_index\\\": 9, \\\"agent_empathy_score\\\": 8, \\\"churn_risk_percentage\\\": 90, \\\"churn_risk\\\": \\\"High\\\", \\\"resolution_probability\\\": 20, \\\"issue_resolved\\\": false }, \\\"sentence_level_analysis\\\": [ { \\\"sentence\\\": \\\"string\\\", \\\"sentiment\\\": \\\"Negative\\\", \\\"emotion\\\": \\\"Anger\\\" } ] }\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Analyze this transcript:\\n\\n\" + $json.body.text\n    }\n  ]\n}) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "93db681d-5750-437d-af4d-05242db1dfdc",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        416,
+        0
+      ],
+      "id": "709a1678-af5b-4300-9024-e1c7842da358",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "8d1bad58-2082-4980-8c09-d162103f2d62",
+  "meta": {
+    "instanceId": "184d8e8f381155be2e93d25a9acc9628dd6f51ccfe6cdda9af53ce80a0900c34"
+  },
+  "id": "o1rBQ8o5Cj5RgXgL",
+  "tags": []
+}
