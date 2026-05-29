@@ -568,7 +568,10 @@ export default function DashboardShell() {
                   <BarChart data={emotionBarData} layout="vertical" margin={{ top: 0, right: 20, bottom: 0, left: 0 }}>
                     <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 9, fill: C.t3 }} axisLine={false} tickLine={false} tickFormatter={v => `${v}%`} />
                     <YAxis type="category" dataKey="name" tick={{ fontSize: 10, fill: C.t2 }} axisLine={false} tickLine={false} width={80} />
-                    <Tooltip formatter={(value: any, name: any) => [`${value}%`, name]} contentStyle={{ ... }} />
+                    <Tooltip 
+                    formatter={(value: any, name: any) => [`${value}%`, name]} 
+                    contentStyle={{ backgroundColor: '#0d1117', borderColor: '#30363d' }} 
+                    />
                     <Bar dataKey="value" radius={[0, 4, 4, 0]}>
                       {emotionBarData.map((entry, i) => {
                         const colors = [C.purple, C.blue, C.cyan, C.amber, C.red, C.orange];
