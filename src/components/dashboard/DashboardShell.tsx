@@ -559,7 +559,7 @@ export default function DashboardShell() {
                   <BarChart data={emotionBarData} layout="vertical" margin={{ top: 0, right: 20, bottom: 0, left: 0 }}>
                     <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 9, fill: C.t3 }} axisLine={false} tickLine={false} tickFormatter={(v: number) => `${v}%`} />
                     <YAxis type="category" dataKey="name" tick={{ fontSize: 10, fill: C.t2 }} axisLine={false} tickLine={false} width={80} />
-                    <Tooltip formatter={(value: number) => [`${value}%`, "Intensity"] as [string, string]} contentStyle={{ background: "#0d1117", border: `1px solid ${C.border}`, borderRadius: 8, fontSize: 11 }} />
+                    <Tooltip formatter={(value) => [`${value}%`, "Intensity"]} contentStyle={{ background: "#0d1117", border: `1px solid ${C.border}`, borderRadius: 8, fontSize: 11 }} />
                     <Bar dataKey="value" radius={[0, 4, 4, 0]}>
                       {emotionBarData.map((_, i) => (
                         <Cell key={i} fill={emotionBarColors[i % emotionBarColors.length]} fillOpacity={0.85} />
@@ -586,7 +586,7 @@ export default function DashboardShell() {
                     <Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={85} paddingAngle={3} dataKey="value">
                       {pieData.map((entry, i) => <Cell key={i} fill={entry.color} opacity={0.9} />)}
                     </Pie>
-                    <Tooltip formatter={(value: number) => [value, "sentences"] as [number, string]} contentStyle={{ background: "#0d1117", border: `1px solid ${C.border}`, borderRadius: 8, fontSize: 11 }} />
+                    <Tooltip formatter={(value) => [value, "sentences"]} contentStyle={{ background: "#0d1117", border: `1px solid ${C.border}`, borderRadius: 8, fontSize: 11 }} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
