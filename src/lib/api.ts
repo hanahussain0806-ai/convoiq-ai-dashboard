@@ -1,7 +1,7 @@
 import { AnalysisResult } from "./types";
 
 export async function analyzeConversation(text: string): Promise<AnalysisResult> {
-  const response = await fetch("https://eligible-foothold-revolt.ngrok-free.dev", {
+  const response = await fetch("https://eligible-foothold-revolt.ngrok-free.dev/webhook/analyze-sentiment", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),
